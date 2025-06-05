@@ -1,0 +1,13 @@
+# Firebase
+GoogleService-Info.plist
+
+# Xcode
+*.xcuserdata
+*.xcworkspace
+DerivedData/
+build/
+
+# macOS
+.DS_Store
+
+.env
