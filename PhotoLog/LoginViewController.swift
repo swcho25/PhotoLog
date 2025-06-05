@@ -9,6 +9,7 @@ import UIKit
 import FirebaseAuth
 import GoogleSignIn
 import FirebaseCore
+import FirebaseFirestore
 
 class LoginViewController: UIViewController {
 
@@ -48,6 +49,23 @@ class LoginViewController: UIViewController {
                 }
 
                 print("✅ 로그인 성공! 유저: \(authResult?.user.email ?? "")")
+                
+                    if let user = Auth.auth().currentUser {
+                        let userData: [String: Any] = [
+                            "uid": user.uid,
+                            "displayName": user.displayName ?? "",
+                            "photoURL": user.photoURL?.absoluteString ?? "",
+                        ]
+                        let db = Firestore.firestore()
+                        db.collection("users").document(user.uid).setData(userData) { error in
+                            if let error = error {
+                                print("Firestore 저장 실패: \(error.localizedDescription)")
+                            } else {
+                                print("Firestore에 사용자 정보 저장 완료")
+                            }
+                        }
+                    }
+                
                 self.goToHomeScreen()
             }
         }
@@ -56,12 +74,12 @@ class LoginViewController: UIViewController {
     func goToHomeScreen() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                 let sceneDelegate = windowScene.delegate as? SceneDelegate,
-                let homeVC = storyboard?.instantiateViewController(withIdentifier: "HomeVC") else {
-            print("❌ HomeVC 로드 실패")
+                let tabbarVC = storyboard?.instantiateViewController(withIdentifier: "TabBarVC") else {
+            print("❌ TabBarVC 로드 실패")
             return
         }
 
-        let navController = UINavigationController(rootViewController: homeVC)
+        let navController = UINavigationController(rootViewController: tabbarVC)
         sceneDelegate.window?.rootViewController = navController
         sceneDelegate.window?.makeKeyAndVisible()
     }
