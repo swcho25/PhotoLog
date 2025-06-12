@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>this app is using image metadata</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>this app is using image metadata</string>
+	<key>NSCameraUsageDescription</key>
+	<string>this app is using camera</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -11,7 +17,6 @@
 			</array>
 		</dict>
 	</array>
-	
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
