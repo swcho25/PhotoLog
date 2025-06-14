@@ -10,4 +10,4 @@ build/
 # macOS
 .DS_Store
 
-.env
+Info.plist
