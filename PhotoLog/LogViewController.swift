@@ -25,59 +25,83 @@ class LogViewController: UIViewController {
     
     @IBAction func createLogButton(_ sender: UIButton) {
         guard let selectedImage = userImageView.image else {
-            print("❌ 이미지가 선택되지 않았습니다.")
-            return
-        }
-        
-        guard let asset = self.storedAsset else {
-            print("❌ PHAsset이 설정되어 있지 않습니다.")
-            return
-        }
-        
-        let creationDateString = asset.creationDate?.description ?? "날짜 없음"
-        
-        if let loc = asset.location {
-            // 역지오코딩 수행
-            let geocoder = CLGeocoder()
-            geocoder.reverseGeocodeLocation(loc) { placemarks, error in
-                var locationString = "위치 정보 없음"
-                
-                if let error = error {
-                    print("역지오코딩 실패:", error.localizedDescription)
-                } else if let placemark = placemarks?.first {
-                    let country = placemark.country ?? "국가 알 수 없음"
-                    let city = placemark.locality ?? "도시 알 수 없음"
-                    let district = placemark.subLocality ?? "구 정보 없음"
-                    locationString = "나라: \(country), 도시: \(city), 상세: \(district)"
-                }
-                
-                let metadataString = "촬영 날짜: \(creationDateString), 위치: \(locationString)"
-                print("최종 메타데이터:", metadataString)
-                
-                // GPT API 호출
-                self.callGPTAPI(imageDescription: metadataString) { diaryText in
+                print("❌ 이미지가 선택되지 않았습니다.")
+                return
+            }
+
+            guard let asset = self.storedAsset else {
+                print("❌ PHAsset이 설정되어 있지 않습니다.")
+                return
+            }
+
+            let creationDateString = asset.creationDate?.description ?? "날짜 없음"
+
+            // ✅ 로딩창 표시
+            let loadingAlert = showLoadingAlert()
+            self.present(loadingAlert, animated: true, completion: nil)
+
+            if let loc = asset.location {
+                let geocoder = CLGeocoder()
+                geocoder.reverseGeocodeLocation(loc, preferredLocale: .current) { placemarks, error in
+                    var locationString = "위치 정보 없음"
+
+                    if let error = error {
+                        print("역지오코딩 실패:", error.localizedDescription)
+                    } else if let placemark = placemarks?.first {
+                        let country = placemark.country ?? "국가 알 수 없음"
+                        let city = placemark.locality ?? "도시 알 수 없음"
+                        let district = placemark.subLocality ?? "구 정보 없음"
+                        locationString = "나라: \(country), 도시: \(city), 상세: \(district)"
+                    }
+
+                    let metadataString = "촬영 날짜: \(creationDateString), 위치: \(locationString)"
+                    print("최종 메타데이터:", metadataString)
+
+                    let dummyDiaryText = """
+                    오사카의 맑은 겨울날, 우리는 유니버설 스튜디오를 찾았다.
+                    사진 속 환한 웃음은 그날의 즐거움을 고스란히 담고 있다.
+                    여행의 기록이 또 하나의 소중한 추억이 되었다.
+                    """
+                    
                     DispatchQueue.main.async {
+                        loadingAlert.dismiss(animated: true) {
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
+                                resultVC.diaryText = dummyDiaryText
+                                resultVC.userImage = selectedImage
+                                resultVC.storedAsset = asset
+                                self.navigationController?.pushViewController(resultVC, animated: true)
+                            }
+                        }
+                    }
+                    
+                    /*self.callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
+                        DispatchQueue.main.async {
+                            loadingAlert.dismiss(animated: true) {
+                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
+                                    resultVC.diaryText = diaryText
+                                    resultVC.userImage = selectedImage
+                                    resultVC.storedAsset = asset
+                                    self.navigationController?.pushViewController(resultVC, animated: true)
+                                }
+                            }
+                        }
+                    }*/
+                }
+            } else {
+                let metadataString = "촬영 날짜: \(creationDateString), 위치 정보 없음"
+                print("최종 메타데이터:", metadataString)
+
+                callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
+                    DispatchQueue.main.async {
+                    loadingAlert.dismiss(animated: true) {
                         let storyboard = UIStoryboard(name: "Main", bundle: nil)
                         if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
                             resultVC.diaryText = diaryText
                             resultVC.userImage = selectedImage
                             self.navigationController?.pushViewController(resultVC, animated: true)
                         }
-                    }
-                }
-            }
-        } else {
-            // 위치 정보가 없는 경우
-            let metadataString = "촬영 날짜: \(creationDateString), 위치 정보 없음"
-            print("최종 메타데이터:", metadataString)
-            
-            callGPTAPI(imageDescription: metadataString) { diaryText in
-                DispatchQueue.main.async {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
-                        resultVC.diaryText = diaryText
-                        resultVC.userImage = selectedImage
-                        self.navigationController?.pushViewController(resultVC, animated: true)
                     }
                 }
             }
@@ -110,10 +134,113 @@ class LogViewController: UIViewController {
         }
     }
     
-    func callGPTAPI(imageDescription: String, completion: @escaping (String) -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            completion("테스트 일기 문구입니다.")
+    func showLoadingAlert() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: "일기 생성 중...\n\n", preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(style: .medium)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.startAnimating()
+
+        alert.view.addSubview(loadingIndicator)
+
+        NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: alert.view.centerXAnchor),
+            loadingIndicator.bottomAnchor.constraint(equalTo: alert.view.bottomAnchor, constant: -20)
+        ])
+
+        return alert
+    }
+    
+    func callGPTAPI(image: UIImage, metadata: String, completion: @escaping (String) -> Void) {
+        guard let url = URL(string: "https://api.openai.com/v1/chat/completions"),
+              let imageData = image.jpegData(compressionQuality: 0.8)?.base64EncodedString() else {
+            completion("입력 오류 발생")
+            return
         }
+        
+        guard let apiKey = Bundle.main.infoDictionary?["OpenAI_API_Key"] as? String else {
+            print("❌ API 키 로드 실패")
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let imageDict: [String: Any] = [
+            "type": "image_url",
+            "image_url": [
+                "url": "data:image/jpeg;base64,\(imageData)"
+            ]
+        ]
+        
+        let messages: [[String: Any]] = [
+            ["role": "system", "content": "당신은 여행 일기를 대신 써주는 작가입니다."],
+            ["role": "user", "content": [
+                [
+                    "type": "text",
+                    "text": "아래 이미지와 메타데이터를 참고해서 감성적인 여행 일기를 3문장으로 작성해줘. \n메타데이터: \(metadata)"
+                ],
+                imageDict
+            ]]
+        ]
+        
+        let body: [String: Any] = [
+            "model": "gpt-4o",
+            "messages": messages,
+            "max_tokens": 300
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        } catch {
+            print("JSON 변환 실패: \(error)")
+            completion("요청 생성 실패")
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("❌ 네트워크 오류 발생:", error)
+                completion("요청 중 오류 발생")
+                return
+            }
+            
+            guard let data = data else {
+                print("❌ 응답 데이터 없음")
+                completion("응답 데이터 없음")
+                return
+            }
+            
+            // ✅ JSON 파싱 시도
+            do {
+                guard let json = try JSONSerialization.jsonObject(with: data) as? [String: Any] else {
+                    print("❌ JSON 최상위 파싱 실패")
+                    completion("JSON 최상위 파싱 실패")
+                    return
+                }
+
+                guard
+                    let choices = json["choices"] as? [[String: Any]],
+                    let message = choices.first?["message"] as? [String: Any],
+                    let content = message["content"] as? String
+                else {
+                    print("❌ JSON 구조 예상과 다름:\n\(json)")
+                    completion("응답 파싱 실패")
+                    return
+                }
+                
+                print("✅ 생성된 일기 내용:\n\(content)")
+                completion(content)
+
+            } catch {
+                print("❌ JSON 파싱 실패: \(error)")
+                completion("응답 파싱 중 오류 발생")
+            }
+        }
+        
+        task.resume()
     }
     
     func checkPhotoLibraryPermission(completion: @escaping (Bool) -> Void) {
