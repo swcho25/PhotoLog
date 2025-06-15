@@ -54,6 +54,18 @@ class PictureViewController: UIViewController, UICollectionViewDataSource, UICol
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    
+                    if self.diaryImages.isEmpty {
+                        let emptyLabel = UILabel()
+                        emptyLabel.text = "일기를 작성해주세요!"
+                        emptyLabel.textAlignment = .center
+                        emptyLabel.textColor = UIColor(hex: "#5A2F14") // ✅ 헥사 지원
+                        emptyLabel.font = UIFont.systemFont(ofSize: 17)
+                        emptyLabel.numberOfLines = 0
+                        self.collectionView.backgroundView = emptyLabel
+                    } else {
+                        self.collectionView.backgroundView = nil
+                    }
                 }
             }
     }

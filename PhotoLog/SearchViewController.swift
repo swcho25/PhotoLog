@@ -85,8 +85,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.textLabel?.text = "제목: " + diary.title
         cell.detailTextLabel?.text = formatter.string(from: diary.date)
         
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)     // 제목
-        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular) // 날짜
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)     // 제목
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular) // 날짜
         
         return cell
     }

@@ -12,6 +12,7 @@ import CoreLocation
 class LogViewController: UIViewController {
 
     @IBOutlet weak var userImageView: UIImageView!
+    @IBOutlet weak var placeholderLabel: UILabel!
     
     var storedAsset: PHAsset?
     
@@ -272,6 +273,7 @@ extension LogViewController: UINavigationControllerDelegate, UIImagePickerContro
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             userImageView.image = image
+            placeholderLabel.isHidden = true
         }
         
         // PHAsset을 얻어 원본 메타데이터(촬영일, 위치 등) 추출

@@ -82,7 +82,7 @@ class SettingViewController: UIViewController {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                let delegate = windowScene.delegate as? SceneDelegate {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
+                let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginVC")
                 delegate.window?.rootViewController = loginVC
             }
 

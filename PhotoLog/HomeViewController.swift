@@ -30,6 +30,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
+                
         tableView.dataSource = self
         tableView.delegate = self
 
@@ -103,19 +104,29 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
             }
 
-            // 정렬된 형태로 저장
+            // 정렬
             self.availableYearMonth = yearMonthDict.mapValues { months in
-                months.sorted(by: >)  // 월 최신순
-            }.sorted(by: { $0.key > $1.key })  // 연도 최신순
-            .reduce(into: [:]) { $0[$1.key] = $1.value }
+                months.sorted(by: >)
+            }.sorted(by: { $0.key > $1.key })
+             .reduce(into: [:]) { $0[$1.key] = $1.value }
 
-            // Picker에 반영
+            // Picker 새로고침
             self.yearPicker.reloadAllComponents()
             self.monthPicker.reloadAllComponents()
 
-            // 초기 선택
-            if let latestYear = self.availableYearMonth.keys.sorted(by: >).first,
-                let latestMonth = self.availableYearMonth[latestYear]?.first {
+            // ✅ 현재 선택된 연/월이 여전히 유효한지 확인
+            if let validMonths = self.availableYearMonth[self.selectedYear],
+               validMonths.contains(self.selectedMonth) {
+                // 유효 → 그대로 유지
+                if let yearIndex = Array(self.availableYearMonth.keys.sorted(by: >)).firstIndex(of: self.selectedYear),
+                   let monthIndex = validMonths.firstIndex(of: self.selectedMonth) {
+                    self.yearPicker.selectRow(yearIndex, inComponent: 0, animated: false)
+                    self.monthPicker.selectRow(monthIndex, inComponent: 0, animated: false)
+                    self.fetchDiaries(forYear: self.selectedYear, month: self.selectedMonth)
+                }
+            } else if let latestYear = self.availableYearMonth.keys.sorted(by: >).first,
+                      let latestMonth = self.availableYearMonth[latestYear]?.first {
+                // 유효하지 않음 → 최신으로 fallback
                 self.selectedYear = latestYear
                 self.selectedMonth = latestMonth
 
@@ -127,9 +138,22 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 }
 
                 self.fetchDiaries(forYear: latestYear, month: latestMonth)
+            } else {
+                // 일기 없음
+                let emptyLabel = UILabel()
+                emptyLabel.text = "일기를 작성해주세요!"
+                emptyLabel.textAlignment = .center
+                emptyLabel.textColor = UIColor(hex: "#5A2F14")
+                emptyLabel.font = UIFont.systemFont(ofSize: 17)
+                emptyLabel.numberOfLines = 0
+                self.tableView.backgroundView = emptyLabel
+                self.tableView.separatorStyle = .none
+                self.diaryList = []
+                self.tableView.reloadData()
             }
         }
     }
+
     
     // ✅ TableView - 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -181,23 +205,32 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
     }
 
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let label = UILabel()
+
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 17) // 원하는 크기
+        label.textColor = UIColor.darkGray
+
         if pickerView == yearPicker {
             let years = Array(availableYearMonth.keys).sorted(by: >)
-            guard row < years.count else { return nil }
-            let year = years[row]
-            return "\(year)년"
+            if row < years.count {
+                label.text = "\(years[row])년"
+            }
         } else {
             let years = Array(availableYearMonth.keys).sorted(by: >)
             let selectedYearIndex = yearPicker.selectedRow(inComponent: 0)
-            guard selectedYearIndex < years.count else { return nil }
-            
-            let selectedYear = years[selectedYearIndex]
-            guard let months = availableYearMonth[selectedYear], row < months.count else { return nil }
-            
-            return "\(months[row])월"
+            if selectedYearIndex < years.count {
+                let selectedYear = years[selectedYearIndex]
+                if let months = availableYearMonth[selectedYear], row < months.count {
+                    label.text = "\(months[row])월"
+                }
+            }
         }
+
+        return label
     }
+
 
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let years = Array(availableYearMonth.keys).sorted(by: >)

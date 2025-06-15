@@ -78,7 +78,7 @@ class EditDiaryViewController: UIViewController, UITextViewDelegate {
             if let data = snapshot?.data() {
                 self.titleTextView.text = data["title"] as? String
                 self.contentTextView.text = data["content"] as? String
-                if let imageUrlString = data["imageUrl"] as? String,
+                if let imageUrlString = data["imageURL"] as? String,
                     let url = URL(string: imageUrlString) {
                     self.diaryImageView.sd_setImage(with: url, placeholderImage: UIImage(systemName: "photo"))
                 }
