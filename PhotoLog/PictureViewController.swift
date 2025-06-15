@@ -30,6 +30,11 @@ class PictureViewController: UIViewController, UICollectionViewDataSource, UICol
         fetchImageURLs()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchImageURLs()
+    }
+    
     func fetchImageURLs() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         

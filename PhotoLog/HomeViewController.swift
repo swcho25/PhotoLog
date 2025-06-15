@@ -42,6 +42,11 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
 
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadAvailableYearMonth()
+    }
+    
     func fetchDiaries(forYear year: Int, month: Int) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
