@@ -26,88 +26,74 @@ class LogViewController: UIViewController {
     
     @IBAction func createLogButton(_ sender: UIButton) {
         guard let selectedImage = userImageView.image else {
-                let alert = UIAlertController(title: "사진 필요", message: "사진을 선택해주세요!", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "확인", style: .default))
-                self.present(alert, animated: true)
-                print("❌ 이미지가 선택되지 않았습니다.")
-                return
-            }
+            let alert = UIAlertController(title: "사진 필요", message: "사진을 선택해주세요!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            self.present(alert, animated: true)
+            print("❌ 이미지가 선택되지 않았습니다.")
+            return
+        }
 
-            guard let asset = self.storedAsset else {
-                print("❌ PHAsset이 설정되어 있지 않습니다.")
-                return
-            }
+        guard let asset = self.storedAsset else {
+            print("❌ PHAsset이 설정되어 있지 않습니다.")
+            return
+        }
 
-            let creationDateString = asset.creationDate?.description ?? "날짜 없음"
+        let creationDateString = asset.creationDate?.description ?? "날짜 없음"
 
-            // ✅ 로딩창 표시
-            let loadingAlert = showLoadingAlert()
-            self.present(loadingAlert, animated: true, completion: nil)
+        // ✅ 로딩창 표시
+        let loadingAlert = showLoadingAlert()
+        self.present(loadingAlert, animated: true, completion: nil)
             
-            if let loc = asset.location {
-                let geocoder = CLGeocoder()
-                geocoder.reverseGeocodeLocation(loc, preferredLocale: .current) { placemarks, error in
-                    var locationString = "위치 정보 없음"
+        if let loc = asset.location {
+            let geocoder = CLGeocoder()
+            geocoder.reverseGeocodeLocation(loc, preferredLocale: .current) { placemarks, error in
+                var locationString = "위치 정보 없음"
+                
+                if let error = error {
+                    print("역지오코딩 실패:", error.localizedDescription)
+                } else if let placemark = placemarks?.first {
+                    let country = placemark.country ?? "국가 알 수 없음"
+                    let city = placemark.locality ?? "도시 알 수 없음"
+                    let district = placemark.subLocality ?? "구 정보 없음"
+                    locationString = "나라: \(country), 도시: \(city), 상세: \(district)"
+                }
 
-                    if let error = error {
-                        print("역지오코딩 실패:", error.localizedDescription)
-                    } else if let placemark = placemarks?.first {
-                        let country = placemark.country ?? "국가 알 수 없음"
-                        let city = placemark.locality ?? "도시 알 수 없음"
-                        let district = placemark.subLocality ?? "구 정보 없음"
-                        locationString = "나라: \(country), 도시: \(city), 상세: \(district)"
-                    }
+                let metadataString = "촬영 날짜: \(creationDateString), 위치: \(locationString)"
+                print("최종 메타데이터:", metadataString)
 
-                    let metadataString = "촬영 날짜: \(creationDateString), 위치: \(locationString)"
-                    print("최종 메타데이터:", metadataString)
-
-                    let dummyDiaryText = """
-                    오사카의 맑은 겨울날, 우리는 유니버설 스튜디오를 찾았다.
-                    사진 속 환한 웃음은 그날의 즐거움을 고스란히 담고 있다.
-                    여행의 기록이 또 하나의 소중한 추억이 되었다.
-                    """
+                // 1. 예시 데이터
+                let dummyDiaryText = """
+                오사카의 맑은 겨울날, 우리는 유니버설 스튜디오를 찾았다.
+                사진 속 환한 웃음은 그날의 즐거움을 고스란히 담고 있다.
+                여행의 기록이 또 하나의 소중한 추억이 되었다.
+                """
                     
+                DispatchQueue.main.async {
+                    loadingAlert.dismiss(animated: true) {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
+                            resultVC.diaryText = dummyDiaryText
+                            resultVC.userImage = selectedImage
+                            resultVC.storedAsset = asset
+                            self.navigationController?.pushViewController(resultVC, animated: true)
+                        }
+                    }
+                }
+                    
+                // 2. GPT API 호출
+                /*self.callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
                     DispatchQueue.main.async {
                         loadingAlert.dismiss(animated: true) {
                             let storyboard = UIStoryboard(name: "Main", bundle: nil)
                             if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
-                                resultVC.diaryText = dummyDiaryText
+                                resultVC.diaryText = diaryText
                                 resultVC.userImage = selectedImage
                                 resultVC.storedAsset = asset
                                 self.navigationController?.pushViewController(resultVC, animated: true)
                             }
                         }
                     }
-                    
-                    /*self.callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
-                        DispatchQueue.main.async {
-                            loadingAlert.dismiss(animated: true) {
-                                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                                if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
-                                    resultVC.diaryText = diaryText
-                                    resultVC.userImage = selectedImage
-                                    resultVC.storedAsset = asset
-                                    self.navigationController?.pushViewController(resultVC, animated: true)
-                                }
-                            }
-                        }
-                    }*/
-                }
-            } else {
-                let metadataString = "촬영 날짜: \(creationDateString), 위치 정보 없음"
-                print("최종 메타데이터:", metadataString)
-
-                callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
-                    DispatchQueue.main.async {
-                    loadingAlert.dismiss(animated: true) {
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                        if let resultVC = storyboard.instantiateViewController(withIdentifier: "ResultVC") as? ResultViewController {
-                            resultVC.diaryText = diaryText
-                            resultVC.userImage = selectedImage
-                            self.navigationController?.pushViewController(resultVC, animated: true)
-                        }
-                    }
-                }
+                }*/
             }
         }
     }

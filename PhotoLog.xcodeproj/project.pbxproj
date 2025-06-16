@@ -53,7 +53,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		91288FCC2DF18AB800987278 /* Exceptions for "PhotoLog" folder in "PhotoLog" target */ = {
+		915517642E00182100F8195A /* Exceptions for "PhotoLog" folder in "PhotoLog" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -66,7 +66,7 @@
 		91288FA62DF18AB700987278 /* PhotoLog */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				91288FCC2DF18AB800987278 /* Exceptions for "PhotoLog" folder in "PhotoLog" target */,
+				915517642E00182100F8195A /* Exceptions for "PhotoLog" folder in "PhotoLog" target */,
 			);
 			path = PhotoLog;
 			sourceTree = "<group>";
