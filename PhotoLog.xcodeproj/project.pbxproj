@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		910DD6EF2DFDBE190078085B /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 910DD6EE2DFDBE190078085B /* SDWebImage */; };
+		9115ED152E00074600E3A4DD /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 9115ED142E00074600E3A4DD /* DGCharts */; };
 		912890542DF1C7BC00987278 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 912890532DF1C7BC00987278 /* GoogleSignIn */; };
 		912890572DF1C7F800987278 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 912890562DF1C7F800987278 /* FirebaseAuth */; };
 		912890592DF1C7F800987278 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 912890582DF1C7F800987278 /* FirebaseCore */; };
@@ -31,6 +32,19 @@
 			remoteInfo = PhotoLog;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9115ED192E00074600E3A4DD /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		91288FA42DF18AB700987278 /* PhotoLog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoLog.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,6 +93,7 @@
 				9128905B2DF1C7F800987278 /* FirebaseFirestore in Frameworks */,
 				912890592DF1C7F800987278 /* FirebaseCore in Frameworks */,
 				9128905D2DF1C7F800987278 /* FirebaseStorage in Frameworks */,
+				9115ED152E00074600E3A4DD /* DGCharts in Frameworks */,
 				912890572DF1C7F800987278 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -138,6 +153,7 @@
 				91288FA02DF18AB700987278 /* Sources */,
 				91288FA12DF18AB700987278 /* Frameworks */,
 				91288FA22DF18AB700987278 /* Resources */,
+				9115ED192E00074600E3A4DD /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -154,6 +170,7 @@
 				9128905A2DF1C7F800987278 /* FirebaseFirestore */,
 				9128905C2DF1C7F800987278 /* FirebaseStorage */,
 				910DD6EE2DFDBE190078085B /* SDWebImage */,
+				9115ED142E00074600E3A4DD /* DGCharts */,
 			);
 			productName = PhotoLog;
 			productReference = 91288FA42DF18AB700987278 /* PhotoLog.app */;
@@ -241,6 +258,7 @@
 				912890522DF1C7BC00987278 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				912890552DF1C7F800987278 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				910DD6EC2DFDBD920078085B /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				9115ED132E00055B00E3A4DD /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 91288FA52DF18AB700987278 /* Products */;
@@ -609,6 +627,14 @@
 				minimumVersion = 5.21.1;
 			};
 		};
+		9115ED132E00055B00E3A4DD /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.0;
+			};
+		};
 		912890522DF1C7BC00987278 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -632,6 +658,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 910DD6EC2DFDBD920078085B /* XCRemoteSwiftPackageReference "SDWebImage" */;
 			productName = SDWebImage;
+		};
+		9115ED142E00074600E3A4DD /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9115ED132E00055B00E3A4DD /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
 		};
 		912890532DF1C7BC00987278 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;
