@@ -18,8 +18,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="86D-bM-nEu">
-                                <rect key="frame" x="101" y="409" width="191" height="35"/>
+                                <rect key="frame" x="101" y="641" width="191" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" red="0.35294117650000001" green="0.1843137255" blue="0.078431372550000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Google 계정으로 로그인"/>
@@ -27,6 +28,17 @@
                                     <action selector="googleLoginButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xoo-Y0-zem"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Login PhotoLog" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZXb-iS-KC5">
+                                <rect key="frame" x="65" y="162" width="262" height="43"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="36"/>
+                                <color key="textColor" red="0.35294117650000001" green="0.1843137255" blue="0.078431372550000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Splash" translatesAutoresizingMaskIntoConstraints="NO" id="CJ0-wU-Awz">
+                                <rect key="frame" x="96" y="326" width="200" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -35,7 +47,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1079" y="-59"/>
+            <point key="canvasLocation" x="1078.6259541984732" y="-59.154929577464792"/>
         </scene>
         <!--Home-->
         <scene sceneID="rWw-cW-Vba">
@@ -85,7 +97,7 @@
                         <viewLayoutGuide key="safeArea" id="6h8-O7-vtQ"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Home" id="ZIs-Fe-UqO"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="homekit" catalog="system" id="ZIs-Fe-UqO"/>
                     <connections>
                         <outlet property="monthPicker" destination="M4R-Kd-3ba" id="IB6-Ra-Eo4"/>
                         <outlet property="tableView" destination="WuJ-4U-Xfl" id="dOd-gb-NV0"/>
@@ -96,7 +108,7 @@
             </objects>
             <point key="canvasLocation" x="2887.7862595419847" y="-449.29577464788736"/>
         </scene>
-        <!--add-->
+        <!--Add-->
         <scene sceneID="ghV-Pp-sWf">
             <objects>
                 <viewController id="wPo-aq-2hd" customClass="LogViewController" customModule="PhotoLog" customModuleProvider="target" sceneMemberID="viewController">
@@ -140,7 +152,7 @@
                         <viewLayoutGuide key="safeArea" id="W32-7v-L0J"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="add" id="34Q-D2-3Hd"/>
+                    <tabBarItem key="tabBarItem" title="Add" image="plus" catalog="system" id="34Q-D2-3Hd"/>
                     <connections>
                         <outlet property="placeholderLabel" destination="aCn-ja-Ofm" id="sLp-hb-cZy"/>
                         <outlet property="userImageView" destination="a8n-bS-zP5" id="CuT-fn-wPL"/>
@@ -245,7 +257,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gyc-eY-C3y">
-                                <rect key="frame" x="22" y="107" width="361" height="46"/>
+                                <rect key="frame" x="16" y="107" width="361" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="textColor" systemColor="labelColor"/>
@@ -317,7 +329,7 @@
             </objects>
             <point key="canvasLocation" x="5513.740458015267" y="355.63380281690144"/>
         </scene>
-        <!--setting-->
+        <!--Profile-->
         <scene sceneID="7sz-0W-gOX">
             <objects>
                 <viewController id="luu-eC-ZIz" customClass="SettingViewController" customModule="PhotoLog" customModuleProvider="target" sceneMemberID="viewController">
@@ -365,7 +377,7 @@
                         <viewLayoutGuide key="safeArea" id="g6D-3i-uti"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="setting" id="TLy-aa-4BC"/>
+                    <tabBarItem key="tabBarItem" title="Profile" image="person.crop.circle" catalog="system" id="TLy-aa-4BC"/>
                     <connections>
                         <outlet property="diaryCountLabel" destination="b64-Ha-D2N" id="FRR-yc-D6y"/>
                         <outlet property="imageView" destination="Qg0-9E-mfT" id="wfP-r8-SlM"/>
@@ -426,7 +438,7 @@
                         <viewLayoutGuide key="safeArea" id="OEg-IT-ZZe"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Image" id="b47-5X-1PA"/>
+                    <tabBarItem key="tabBarItem" title="Image" image="photo" catalog="system" id="b47-5X-1PA"/>
                     <connections>
                         <outlet property="collectionView" destination="L48-G9-Caw" id="NhQ-kf-ofi"/>
                     </connections>
@@ -435,7 +447,7 @@
             </objects>
             <point key="canvasLocation" x="3765.6488549618321" y="-449.29577464788736"/>
         </scene>
-        <!--search-->
+        <!--Search-->
         <scene sceneID="DeG-QK-d0C">
             <objects>
                 <viewController id="GKP-9p-Jk0" customClass="SearchViewController" customModule="PhotoLog" customModuleProvider="target" sceneMemberID="viewController">
@@ -497,7 +509,7 @@
                         <viewLayoutGuide key="safeArea" id="Guu-yf-4SU"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="search" id="N88-rm-Vzq"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" id="N88-rm-Vzq"/>
                     <connections>
                         <outlet property="searchBar" destination="EYY-RM-1aM" id="K1a-EJ-bw6"/>
                         <outlet property="tableView" destination="LK3-Fj-ub1" id="fSM-5t-ze9"/>
@@ -549,11 +561,17 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Splash" width="341.33334350585938" height="341.33334350585938"/>
+        <image name="homekit" catalog="system" width="128" height="104"/>
+        <image name="magnifyingglass" catalog="system" width="128" height="117"/>
+        <image name="person.crop.circle" catalog="system" width="128" height="123"/>
+        <image name="photo" catalog="system" width="128" height="93"/>
+        <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
