@@ -24,6 +24,15 @@ class LogViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        // 이전 선택 이미지/데이터 초기화
+        userImageView.image = nil
+        placeholderLabel.isHidden = false
+        storedAsset = nil
+    }
+    
     @IBAction func createLogButton(_ sender: UIButton) {
         guard let selectedImage = userImageView.image else {
             let alert = UIAlertController(title: "사진 필요", message: "사진을 선택해주세요!", preferredStyle: .alert)

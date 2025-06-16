@@ -109,36 +109,41 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 months.sorted(by: >)
             }.sorted(by: { $0.key > $1.key })
              .reduce(into: [:]) { $0[$1.key] = $1.value }
+                
+            let sortedYears = Array(self.availableYearMonth.keys.sorted(by: >))
 
             // Picker 새로고침
             self.yearPicker.reloadAllComponents()
             self.monthPicker.reloadAllComponents()
 
-            // ✅ 현재 선택된 연/월이 여전히 유효한지 확인
-            if let validMonths = self.availableYearMonth[self.selectedYear],
-               validMonths.contains(self.selectedMonth) {
-                // 유효 → 그대로 유지
-                if let yearIndex = Array(self.availableYearMonth.keys.sorted(by: >)).firstIndex(of: self.selectedYear),
-                   let monthIndex = validMonths.firstIndex(of: self.selectedMonth) {
-                    self.yearPicker.selectRow(yearIndex, inComponent: 0, animated: false)
-                    self.monthPicker.selectRow(monthIndex, inComponent: 0, animated: false)
-                    self.fetchDiaries(forYear: self.selectedYear, month: self.selectedMonth)
-                }
-            } else if let latestYear = self.availableYearMonth.keys.sorted(by: >).first,
-                      let latestMonth = self.availableYearMonth[latestYear]?.first {
-                // 유효하지 않음 → 최신으로 fallback
-                self.selectedYear = latestYear
-                self.selectedMonth = latestMonth
+            // ✅ 유효한 선택 상태 확인
+                if let validMonths = self.availableYearMonth[self.selectedYear],
+                    validMonths.contains(self.selectedMonth),
+                    let yearIndex = sortedYears.firstIndex(of: self.selectedYear),
+                    let monthIndex = validMonths.firstIndex(of: self.selectedMonth) {
+                    
+                        self.yearPicker.selectRow(yearIndex, inComponent: 0, animated: false)
+                        self.monthPicker.reloadAllComponents()
+                        self.monthPicker.selectRow(monthIndex, inComponent: 0, animated: false)
+                        self.fetchDiaries(forYear: self.selectedYear, month: self.selectedMonth)
 
-                if let yearIndex = Array(self.availableYearMonth.keys.sorted(by: >)).firstIndex(of: latestYear) {
-                    self.yearPicker.selectRow(yearIndex, inComponent: 0, animated: false)
-                }
-                if let monthIndex = self.availableYearMonth[latestYear]?.firstIndex(of: latestMonth) {
-                    self.monthPicker.selectRow(monthIndex, inComponent: 0, animated: false)
-                }
+                    } else if let latestYear = sortedYears.first,
+                        let latestMonths = self.availableYearMonth[latestYear],
+                        let latestMonth = latestMonths.first {
 
-                self.fetchDiaries(forYear: latestYear, month: latestMonth)
-            } else {
+                        self.selectedYear = latestYear
+                        self.selectedMonth = latestMonth
+
+                        if let yearIndex = sortedYears.firstIndex(of: latestYear),
+                            let monthIndex = latestMonths.firstIndex(of: latestMonth) {
+                            self.yearPicker.selectRow(yearIndex, inComponent: 0, animated: false)
+                            self.monthPicker.reloadAllComponents()
+                            self.monthPicker.selectRow(monthIndex, inComponent: 0, animated: false)
+                        }
+
+                    self.fetchDiaries(forYear: latestYear, month: latestMonth)
+
+                } else {
                 // 일기 없음
                 let emptyLabel = UILabel()
                 emptyLabel.text = "일기를 작성해주세요!"
@@ -192,7 +197,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if pickerView == yearPicker {
             return availableYearMonth.keys.count
         } else {
-            let years = Array(availableYearMonth.keys).sorted()
+            let years = Array(availableYearMonth.keys).sorted(by: >)
             let selectedIndex = yearPicker.selectedRow(inComponent: 0)
             
             // ✅ 인덱스가 유효한지 확인

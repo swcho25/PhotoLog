@@ -152,7 +152,8 @@
                         <viewLayoutGuide key="safeArea" id="W32-7v-L0J"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Add" image="plus" catalog="system" id="34Q-D2-3Hd"/>
+                    <tabBarItem key="tabBarItem" title="Add" image="plus" catalog="system" id="dh6-jf-2T2"/>
+                    <navigationItem key="navigationItem" id="kdH-Fr-phN"/>
                     <connections>
                         <outlet property="placeholderLabel" destination="aCn-ja-Ofm" id="sLp-hb-cZy"/>
                         <outlet property="userImageView" destination="a8n-bS-zP5" id="CuT-fn-wPL"/>
@@ -160,7 +161,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fsC-BS-0Ke" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4620.6106870229005" y="-59.154929577464792"/>
+            <point key="canvasLocation" x="4685" y="-59"/>
         </scene>
         <!--Log Detail View Controller-->
         <scene sceneID="YKo-6q-OER">
@@ -207,6 +208,7 @@
                         <viewLayoutGuide key="safeArea" id="YcO-pd-zpz"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="PNM-5K-wA4"/>
                     <connections>
                         <outlet property="contentLabel" destination="hU1-Bt-hRM" id="NKJ-Lj-Idh"/>
                         <outlet property="dateLabel" destination="hUE-pN-9sV" id="Qdo-rb-g5p"/>
@@ -216,7 +218,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D8S-kW-155" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5513.740458015267" y="-449.29577464788736"/>
+            <point key="canvasLocation" x="5621" y="-449"/>
         </scene>
         <!--Edit Diary View Controller-->
         <scene sceneID="VnL-aR-IJo">
@@ -276,7 +278,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKI-Ph-BcY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6420.6106870229005" y="-449.29577464788736"/>
+            <point key="canvasLocation" x="6553" y="-449"/>
         </scene>
         <!--Result View Controller-->
         <scene sceneID="ccI-00-isl">
@@ -290,6 +292,14 @@
                                 <rect key="frame" x="16" y="107" width="361" height="495"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="일기 생성 결과" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4xQ-B5-Gbg">
+                                <rect key="frame" x="16" y="59" width="361" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RF1-33-MbL">
                                 <rect key="frame" x="16" y="768" width="361" height="50"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -300,14 +310,6 @@
                                     <action selector="saveLogButton:" destination="qGA-X0-1dF" eventType="touchUpInside" id="Kg9-Ub-9Ij"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="일기 생성 결과" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4xQ-B5-Gbg">
-                                <rect key="frame" x="16" y="59" width="361" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="일기 내용 확인" translatesAutoresizingMaskIntoConstraints="NO" id="PsF-kE-Lp2">
                                 <rect key="frame" x="16" y="610" width="361" height="150"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -320,6 +322,7 @@
                         <viewLayoutGuide key="safeArea" id="NWp-iI-qHh"/>
                         <color key="backgroundColor" red="0.97254901960784312" green="0.93725490196078431" blue="0.90196078431372551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="TlU-1a-oV0"/>
                     <connections>
                         <outlet property="diaryTextView" destination="PsF-kE-Lp2" id="cbU-uM-BTm"/>
                         <outlet property="userImageView" destination="DUf-1r-oOq" id="CFw-q4-I45"/>
@@ -327,7 +330,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7tW-Hm-HnV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5513.740458015267" y="355.63380281690144"/>
+            <point key="canvasLocation" x="5621" y="356"/>
         </scene>
         <!--Profile-->
         <scene sceneID="7sz-0W-gOX">
@@ -545,14 +548,14 @@
                     <connections>
                         <segue destination="77c-pB-51e" kind="relationship" relationship="viewControllers" id="uFr-qY-18h"/>
                         <segue destination="GKP-9p-Jk0" kind="relationship" relationship="viewControllers" id="SwT-6O-3uq"/>
-                        <segue destination="wPo-aq-2hd" kind="relationship" relationship="viewControllers" id="V3g-zP-zqX"/>
-                        <segue destination="i11-cD-jh4" kind="relationship" relationship="viewControllers" id="kym-Bj-wkW"/>
-                        <segue destination="luu-eC-ZIz" kind="relationship" relationship="viewControllers" id="meP-v4-24h"/>
+                        <segue destination="wPo-aq-2hd" kind="relationship" relationship="viewControllers" id="SIX-Pu-pHT"/>
+                        <segue destination="i11-cD-jh4" kind="relationship" relationship="viewControllers" id="mqM-hj-8Yi"/>
+                        <segue destination="luu-eC-ZIz" kind="relationship" relationship="viewControllers" id="xCr-5d-xs4"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7IA-1h-hKd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1921" y="-59"/>
+            <point key="canvasLocation" x="1938" y="-59"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="r6r-jA-9w3">

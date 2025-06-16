@@ -135,27 +135,11 @@ class ResultViewController: UIViewController {
                             alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
                                 print("✅ 확인 버튼 눌림 - 홈 이동 시도")
 
-                                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                                   let window = scene.windows.first {
-                                    
-                                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                                // 홈 탭 선택
+                                self.tabBarController?.selectedIndex = 0
 
-                                    // TabBarController 인스턴스 생성
-                                    if let newTabBarController = storyboard.instantiateViewController(withIdentifier: "TabBarVC") as? UITabBarController {
-                                        
-                                        newTabBarController.selectedIndex = 0  // Home 탭 선택
-                                        
-                                        // HomeVC 네비게이션 세팅 (필요시)
-                                        if let nav = newTabBarController.viewControllers?[0] as? UINavigationController,
-                                           let homeVC = storyboard.instantiateViewController(withIdentifier: "HomeVC") as? HomeViewController {
-                                            nav.setViewControllers([homeVC], animated: false)
-                                        }
-
-                                        // 창에 루트로 세팅
-                                        window.rootViewController = newTabBarController
-                                        window.makeKeyAndVisible()
-                                    }
-                                }
+                                // 현재 ResultViewController는 Log 탭 스택에 있음 → 제거
+                                self.navigationController?.popToRootViewController(animated: false)
                             })
 
                             // ✅ 저장 완료 알림 띄우기
