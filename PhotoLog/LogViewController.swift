@@ -26,6 +26,9 @@ class LogViewController: UIViewController {
     
     @IBAction func createLogButton(_ sender: UIButton) {
         guard let selectedImage = userImageView.image else {
+                let alert = UIAlertController(title: "사진 필요", message: "사진을 선택해주세요!", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                self.present(alert, animated: true)
                 print("❌ 이미지가 선택되지 않았습니다.")
                 return
             }
@@ -40,7 +43,7 @@ class LogViewController: UIViewController {
             // ✅ 로딩창 표시
             let loadingAlert = showLoadingAlert()
             self.present(loadingAlert, animated: true, completion: nil)
-
+            
             if let loc = asset.location {
                 let geocoder = CLGeocoder()
                 geocoder.reverseGeocodeLocation(loc, preferredLocale: .current) { placemarks, error in
@@ -278,24 +281,43 @@ extension LogViewController: UINavigationControllerDelegate, UIImagePickerContro
         
         // PHAsset을 얻어 원본 메타데이터(촬영일, 위치 등) 추출
         if let asset = info[.phAsset] as? PHAsset {
-            storedAsset = asset
-            // 촬영 날짜
-            let creationDate = asset.creationDate ?? Date()
-            print("촬영 날짜:", creationDate)
-            
-            // 위치 정보
-            if let location = asset.location {
-                print("GPS 좌표:", location.coordinate.latitude, location.coordinate.longitude)
+            let hasDate = asset.creationDate != nil
+            let hasLocation = asset.location != nil
+
+            // 날짜와 위치 정보가 모두 없는 경우 → 경고 표시하고 무효화
+            if !hasDate || !hasLocation {
+                // 선택 무효화 처리
+                storedAsset = nil
+                userImageView.image = nil
+                placeholderLabel.isHidden = false
+
+                let alert = UIAlertController(title: "사용할 수 없는 사진", message: "이 사진에는 촬영 날짜나 위치 정보가 없어 사용할 수 없습니다.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "확인", style: .default))
+                
+                picker.dismiss(animated: true) {
+                    self.present(alert, animated: true)
+                }
+                
             } else {
-                print("GPS 정보 없음")
-            }
-            
-            // 필요하면 여기에 메타데이터를 조합해 GPT API에 넘길 문자열 생성
-            // 예) let metadataString = "촬영 날짜: \(creationDate), 위치: \(location.coordinate.latitude), \(location.coordinate.longitude)"
+                // 조건 만족 시 저장
+                storedAsset = asset
+
+                if let date = asset.creationDate {
+                    print("촬영 날짜:", date)
+                } else {
+                    print("촬영 날짜 없음")
+                }
+
+                if let location = asset.location {
+                    print("GPS 좌표:", location.coordinate.latitude, location.coordinate.longitude)
+                } else {
+                    print("GPS 정보 없음")
+                }
+                }
         } else {
             print("PHAsset을 가져올 수 없습니다.")
         }
-        
+
         picker.dismiss(animated: true, completion: nil)
     }
     
