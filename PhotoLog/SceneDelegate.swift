@@ -30,6 +30,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .foregroundColor: UIColor(hex: "#5A2F14")  // 활성 글자색
         ]
         
+        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(hex: "#5A2F14")
+        
         UITabBar.appearance().standardAppearance = appearance
         if #available(iOS 15.0, *) {
             UITabBar.appearance().scrollEdgeAppearance = appearance
