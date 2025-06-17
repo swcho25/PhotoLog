@@ -47,6 +47,14 @@ class SettingViewController: UIViewController {
         loadDiaryCount()
         loadMonthlyDiaryStats()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadUserInfo()
+        loadDiaryCount()
+        loadMonthlyDiaryStats()
+    }
 
     func loadUserInfo() {
         if let user = Auth.auth().currentUser {
