@@ -71,7 +71,7 @@ class LogViewController: UIViewController {
                 print("최종 메타데이터:", metadataString)
 
                 // 1. 예시 데이터
-                let dummyDiaryText = """
+                /*let dummyDiaryText = """
                 오사카의 맑은 겨울날, 우리는 유니버설 스튜디오를 찾았다.
                 사진 속 환한 웃음은 그날의 즐거움을 고스란히 담고 있다.
                 여행의 기록이 또 하나의 소중한 추억이 되었다.
@@ -87,10 +87,10 @@ class LogViewController: UIViewController {
                             self.navigationController?.pushViewController(resultVC, animated: true)
                         }
                     }
-                }
+                }*/
                     
                 // 2. GPT API 호출
-                /*self.callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
+                self.callGPTAPI(image: selectedImage, metadata: metadataString) { diaryText in
                     DispatchQueue.main.async {
                         loadingAlert.dismiss(animated: true) {
                             let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -102,7 +102,7 @@ class LogViewController: UIViewController {
                             }
                         }
                     }
-                }*/
+                }
             }
         }
     }

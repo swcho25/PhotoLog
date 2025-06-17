@@ -78,6 +78,8 @@ class ResultViewController: UIViewController {
             return
         }
         
+        let diaryContent = diaryTextView.text ?? ""
+        
         // ✅ 저장 중 로딩 알림창 표시
             let savingAlert = showSavingAlert()
             self.present(savingAlert, animated: true, completion: nil)
@@ -114,7 +116,7 @@ class ResultViewController: UIViewController {
                 let db = Firestore.firestore()
                 let diaryData: [String: Any] = [
                     "title": title,
-                    "content": diaryText,
+                    "content": diaryContent,
                     "imageURL": imageURL,
                     "createdAt": Timestamp(date: creationDate)
                 ]
