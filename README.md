@@ -114,4 +114,4 @@
 
 | 항목 | 링크 |
 |------|------|
-| 시연 영상 | https://www.youtube.com/shorts/0fYnJCH5SEs |
+| 시연 영상 | https://youtube.com/shorts/QG0_LWdH0VI |
